@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<TabPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.huntertool.HunterController">
+   <tabs>
+      <Tab closable="false" text="语法查询">
+         <content>
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="959.0">
+              <children>
+                <Button fx:id="chaxun_id" layoutX="345.0" layoutY="39.0" mnemonicParsing="false" onAction="#chaxun" text="查询" />
+                  <TextField fx:id="shuru_id" layoutX="37.0" layoutY="39.0" prefHeight="23.0" prefWidth="286.0" />
+                <Button fx:id="Open_key_id" layoutX="849.0" layoutY="28.0" mnemonicParsing="false" onAction="#Open_key" text="API-KEY" />
+                  <Button fx:id="daochu_id" layoutX="849.0" layoutY="62.0" mnemonicParsing="false" onAction="#daochu" prefHeight="23.0" prefWidth="62.0" text="导出" />
+                  <TableView fx:id="TableView_id" layoutX="7.0" layoutY="100.0" prefHeight="468.0" prefWidth="943.0">
+                    <columns>
+                      <TableColumn fx:id="Column_id" prefWidth="36.5" text="序号" />
+                      <TableColumn fx:id="Column_ip" prefWidth="103.5" text="IP" />
+                        <TableColumn fx:id="Column_domain" prefWidth="101.0" text="域名" />
+                        <TableColumn fx:id="Column_port" prefWidth="52.0" text="端口" />
+                        <TableColumn fx:id="Column_service" prefWidth="55.0" text="服务" />
+                        <TableColumn fx:id="Column_title" prefWidth="127.0" text="title" />
+                        <TableColumn fx:id="Column_fingerprint" prefWidth="136.0" text="组件(版本)" />
+                        <TableColumn fx:id="Column_ICP" prefWidth="92.0" text="ICP" />
+                        <TableColumn fx:id="Column_position" minWidth="3.0" prefWidth="92.0" text="地理位置" />
+                        <TableColumn fx:id="Column_statuscode" prefWidth="48.5" text="状态码" />
+                        <TableColumn fx:id="Column_ISP" prefWidth="98.5" text="ISP" />
+                    </columns>
+                  </TableView>
+              </children>
+            </Pane>
+         </content>
+      </Tab>
+      <Tab closable="false" text="批量查询">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="pl_cx_1_but" layoutX="370.0" layoutY="60.0" mnemonicParsing="false" onAction="#pl_cx_1" text="查询" />
+                  <Button fx:id="pl_cx_2_but" layoutX="843.0" layoutY="60.0" mnemonicParsing="false" onAction="#pl_cx_2" text="查询并导出" />
+                  <Button fx:id="pl_dc_1_but" layoutX="370.0" layoutY="171.0" mnemonicParsing="false" onAction="#pl_dc_1" text="导出结果" />
+                  <Button fx:id="pl_scwj_1_but" layoutX="370.0" layoutY="96.0" mnemonicParsing="false" onAction="#pl_scwj_1" text="上传文件" />
+                  <Button fx:id="pl_scwj_2_but" layoutX="843.0" layoutY="96.0" mnemonicParsing="false" onAction="#pl_scwj_2" text="上传并导出" />
+                  <TextArea fx:id="pl_cx_1_TextArea" layoutX="46.0" layoutY="60.0" onMouseClicked="#pl_1_Clicked" prefHeight="464.0" prefWidth="289.0" text="支持IP/域名/网段，例如：&#10;192.168.10.1-255&#10;192.168.0.1-192.168.0.255&#10;192.168.0.0/24&#10;192.168.0.0/255.255.255.0&#10;baidu.com" />
+                  <TextArea fx:id="pl_cx_2_TextArea" layoutX="519.0" layoutY="60.0" onMouseClicked="#pl_2_Clicked" prefHeight="464.0" prefWidth="289.0" text="支持所有hunter语法，每行一条，例如：&#10;domain==&quot;baidu.com&quot;&#10;domain==&quot;tabao.com&quot;" />
+                  <Label layoutX="519.0" layoutY="32.0" text="重复调用语法查询接口：">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="46.0" layoutY="32.0" text="调用官方批量接口：">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+   </tabs>
+</TabPane>
