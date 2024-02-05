@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -12,17 +13,17 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<TabPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.huntertool.HunterController">
+<TabPane prefHeight="652.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.huntertool.HunterController">
    <tabs>
       <Tab closable="false" text="语法查询">
          <content>
-            <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="959.0">
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1008.0">
               <children>
-                <Button fx:id="chaxun_id" layoutX="345.0" layoutY="39.0" mnemonicParsing="false" onAction="#chaxun" text="查询" />
-                  <TextField fx:id="shuru_id" layoutX="37.0" layoutY="39.0" prefHeight="23.0" prefWidth="286.0" />
-                <Button fx:id="Open_key_id" layoutX="849.0" layoutY="28.0" mnemonicParsing="false" onAction="#Open_key" text="API-KEY" />
-                  <Button fx:id="daochu_id" layoutX="849.0" layoutY="62.0" mnemonicParsing="false" onAction="#daochu" prefHeight="23.0" prefWidth="62.0" text="导出" />
-                  <TableView fx:id="TableView_id" layoutX="7.0" layoutY="100.0" prefHeight="468.0" prefWidth="943.0">
+                <Button fx:id="chaxun_id" layoutX="336.0" layoutY="28.0" mnemonicParsing="false" onAction="#chaxun" text="查询" />
+                  <TextField fx:id="shuru_id" layoutX="38.0" layoutY="28.0" prefHeight="23.0" prefWidth="286.0" />
+                <Button fx:id="Open_key_id" layoutX="849.0" layoutY="28.0" mnemonicParsing="false" onAction="#Open_key" prefHeight="23.0" prefWidth="68.0" text="设置" />
+                  <Button fx:id="daochu_id" layoutX="849.0" layoutY="62.0" mnemonicParsing="false" onAction="#daochu" prefHeight="23.0" prefWidth="69.0" text="导出" />
+                  <TableView fx:id="TableView_id" layoutX="10.0" layoutY="100.0" prefHeight="516.0" prefWidth="990.0">
                     <columns>
                       <TableColumn fx:id="Column_id" prefWidth="36.5" text="序号" />
                       <TableColumn fx:id="Column_ip" prefWidth="103.5" text="IP" />
@@ -37,6 +38,10 @@
                         <TableColumn fx:id="Column_ISP" prefWidth="98.5" text="ISP" />
                     </columns>
                   </TableView>
+                  <Label layoutX="30.0" layoutY="66.0" text="资产类型：" />
+                  <ChoiceBox fx:id="is_web" layoutX="90.0" layoutY="62.0" prefHeight="23.0" prefWidth="86.0" />
+                  <Label layoutX="213.0" layoutY="66.0" text="时间范围:" />
+                  <ChoiceBox fx:id="time" layoutX="271.0" layoutY="62.0" prefHeight="23.0" prefWidth="103.0" />
               </children>
             </Pane>
          </content>
@@ -45,23 +50,31 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="pl_cx_1_but" layoutX="370.0" layoutY="60.0" mnemonicParsing="false" onAction="#pl_cx_1" text="查询" />
-                  <Button fx:id="pl_cx_2_but" layoutX="843.0" layoutY="60.0" mnemonicParsing="false" onAction="#pl_cx_2" text="查询并导出" />
-                  <Button fx:id="pl_dc_1_but" layoutX="370.0" layoutY="171.0" mnemonicParsing="false" onAction="#pl_dc_1" text="导出结果" />
-                  <Button fx:id="pl_scwj_1_but" layoutX="370.0" layoutY="96.0" mnemonicParsing="false" onAction="#pl_scwj_1" text="上传文件" />
-                  <Button fx:id="pl_scwj_2_but" layoutX="843.0" layoutY="96.0" mnemonicParsing="false" onAction="#pl_scwj_2" text="上传并导出" />
-                  <TextArea fx:id="pl_cx_1_TextArea" layoutX="46.0" layoutY="60.0" onMouseClicked="#pl_1_Clicked" prefHeight="464.0" prefWidth="289.0" text="支持IP/域名/网段，例如：&#10;192.168.10.1-255&#10;192.168.0.1-192.168.0.255&#10;192.168.0.0/24&#10;192.168.0.0/255.255.255.0&#10;baidu.com" />
-                  <TextArea fx:id="pl_cx_2_TextArea" layoutX="519.0" layoutY="60.0" onMouseClicked="#pl_2_Clicked" prefHeight="464.0" prefWidth="289.0" text="支持所有hunter语法，每行一条，例如：&#10;domain==&quot;baidu.com&quot;&#10;domain==&quot;tabao.com&quot;" />
-                  <Label layoutX="519.0" layoutY="32.0" text="重复调用语法查询接口：">
+                  <Button fx:id="pl_cx_1_but" layoutX="342.0" layoutY="127.0" mnemonicParsing="false" onAction="#pl_cx_1" text="查询" />
+                  <Button fx:id="pl_cx_2_but" layoutX="857.0" layoutY="115.0" mnemonicParsing="false" onAction="#pl_cx_2" text="查询并导出" />
+                  <Button fx:id="pl_dc_1_but" layoutX="338.0" layoutY="253.0" mnemonicParsing="false" onAction="#pl_dc_1" text="导出结果" />
+                  <Button fx:id="pl_scwj_1_but" layoutX="338.0" layoutY="175.0" mnemonicParsing="false" onAction="#pl_scwj_1" text="上传文件" />
+                  <Button fx:id="pl_scwj_2_but" layoutX="857.0" layoutY="163.0" mnemonicParsing="false" onAction="#pl_scwj_2" text="上传并导出" />
+                  <TextArea fx:id="pl_cx_1_TextArea" layoutX="61.0" layoutY="115.0" onMouseClicked="#pl_1_Clicked" prefHeight="410.0" prefWidth="260.0" text="支持IP/域名/网段，例如：&#10;192.168.10.1-255&#10;192.168.0.1-192.168.0.255&#10;192.168.0.0/24&#10;192.168.0.0/255.255.255.0&#10;baidu.com" />
+                  <TextArea fx:id="pl_cx_2_TextArea" layoutX="547.0" layoutY="114.0" onMouseClicked="#pl_2_Clicked" prefHeight="411.0" prefWidth="260.0" text="支持所有hunter语法，每行一条，例如：&#10;domain==&quot;baidu.com&quot;&#10;domain==&quot;tabao.com&quot;" />
+                  <Label layoutX="547.0" layoutY="32.0" text="重复调用语法查询接口：">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="46.0" layoutY="32.0" text="调用官方批量接口：">
+                  <Label layoutX="61.0" layoutY="32.0" text="调用官方批量接口：">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
+                  <ChoiceBox fx:id="is_web_pl1" layoutX="121.0" layoutY="72.0" prefHeight="23.0" prefWidth="86.0" />
+                  <Label layoutX="61.0" layoutY="76.0" text="资产类型：" />
+                  <Label layoutX="228.0" layoutY="76.0" text="时间范围:" />
+                  <ChoiceBox fx:id="time_pl1" layoutX="287.0" layoutY="72.0" prefHeight="23.0" prefWidth="103.0" />
+                  <Label layoutX="547.0" layoutY="76.0" text="资产类型：" />
+                  <ChoiceBox fx:id="is_web_pl2" layoutX="613.0" layoutY="72.0" prefHeight="23.0" prefWidth="86.0" />
+                  <Label layoutX="708.0" layoutY="76.0" text="时间范围:" />
+                  <ChoiceBox fx:id="time_pl2" layoutX="768.0" layoutY="72.0" prefHeight="23.0" prefWidth="103.0" />
                </children>
             </AnchorPane>
         </content>

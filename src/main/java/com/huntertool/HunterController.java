@@ -6,6 +6,7 @@ import com.huntertool.bean.JsonBean;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,15 +22,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.io.BufferedWriter;
-import java.util.UUID;
 
-
-import java.util.Properties;
-
-public class HunterController {
+public class HunterController implements Initializable {
     private static String API_KEY = "";
     String response_string = "";
     String response_string_pl1 = "";
@@ -53,12 +54,37 @@ public class HunterController {
     @FXML
     private TextArea shuchu_id;
 
+    @FXML
+    private ChoiceBox<String> is_web;
 
     @FXML
-    private TextField key_id;
+    private ChoiceBox<String> is_key;
+
+    @FXML
+    private ChoiceBox<String> time;
+
+    @FXML
+    private ChoiceBox<String> is_web_pl1;
+
+    @FXML
+    private ChoiceBox<String> is_web_pl2;
+
+    @FXML
+    private ChoiceBox<String> time_pl1;
+
+    @FXML
+    private ChoiceBox<String> time_pl2;
+
+
+    @FXML
+    private TextField key_id_0;
+
+    @FXML
+    private TextField key_id_1;
 
     @FXML
     private Button save_id;
+
     @FXML
     private TableView<JsonBean> TableView_id;
 
@@ -122,12 +148,34 @@ public class HunterController {
 
     @FXML
     void chaxun(ActionEvent event) {
-        API_KEY = OtherTools.getkey();
+        TableView_id.getItems().clear();
         String originalText = this.shuru_id.getText().trim();
         String encodedText = Base64.getUrlEncoder().encodeToString(originalText.getBytes(StandardCharsets.UTF_8));
+        String get_web_S = is_web.getValue();//获取ChoiceBox选项
+        int get_web_i;
+        if(get_web_S.equals("web资产")){
+            get_web_i = 1;
+        }else if(get_web_S.equals("非web资产")){
+            get_web_i = 2;
+        }else {
+            get_web_i = 3;
+        }
+
+        String time_S = time.getValue();
+        DateTimeFormatter Date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String Date_m;
+        String Date_p = Date.format(LocalDateTime.now());
+        if(time_S.equals("最近一月")){
+            Date_m = Date.format(LocalDateTime.now().minusMonths(1));
+        } else if (time_S.equals("最近半年")) {
+            Date_m = Date.format(LocalDateTime.now().minusMonths(6));
+        }else {
+            Date_m = Date.format(LocalDateTime.now().minusMonths(12));
+        }
+
 
         try {
-            response_string = NetworkTools.search(0, API_KEY, encodedText, "2023-12-01", "2024-01-22", 1, 100, 1, 200);
+            response_string = NetworkTools.search(Integer.parseInt(OtherTools.getveriosn()), OtherTools.getkey(Integer.parseInt(OtherTools.getveriosn())), encodedText, Date_m, Date_p, 1, 100, get_web_i,200);
             System.out.println(response_string);
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,61 +183,71 @@ public class HunterController {
         int code = JSONObject.parseObject(response_string).getInteger("code");
         if (code == 200){
             JSONObject json_data = JSONObject.parseObject(response_string).getJSONObject("data");
-            JSONArray json_data_arr = json_data.getJSONArray("arr");
-            int total = json_data.getInteger("total");
-            for (s = 0; s < json_data_arr.size(); s++) {
-                JSONObject json_data_arr_content = (JSONObject) json_data_arr.get(s);
-                JSONArray component_arr = json_data_arr_content.getJSONArray("component");
+            System.out.println(json_data.getString("arr"));
+            if (json_data.getString("arr") == null){
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("INFORMATION");
+                alert.setHeaderText("未查询到相关内容");
+                alert.showAndWait();
+            }else {
+                JSONArray json_data_arr = json_data.getJSONArray("arr");
+                int total = json_data.getInteger("total");
+                for (s = 0; s < json_data_arr.size(); s++) {
+                    JSONObject json_data_arr_content = (JSONObject) json_data_arr.get(s);
+                    JSONArray component_arr = json_data_arr_content.getJSONArray("component");
 //            JSONArray component_arr = JSONArray.parseArray(json_data_arr_content.getString("component"));
-                String component_arr_name =null;
-                String component_arr_version = null;
-                String component0 = null;
-                String component = "";
-                if (component_arr != null) {
-                    for (int t = 0; t < component_arr.size(); t++) {
-                        JSONObject component_arr_content = (JSONObject) component_arr.get(t);
+                    String component_arr_name =null;
+                    String component_arr_version = null;
+                    String component0 = null;
+                    String component = "";
+                    if (component_arr != null) {
+                        for (int t = 0; t < component_arr.size(); t++) {
+                            JSONObject component_arr_content = (JSONObject) component_arr.get(t);
 //                    JSONObject component_arr_content = component_arr.getJSONObject(t);
-                        component_arr_name = component_arr_content.getString("name");
-                        component_arr_version = component_arr_content.getString("version");
-                        component0 =  component_arr_name + "(" +component_arr_version +")"+"  "+"|"+"  ";
-                        if (t == 0) {
-                            component = component0; // 第一次循环时直接赋值
-                        } else {
-                            component += component0; // 累积每次循环的结果
+                            component_arr_name = component_arr_content.getString("name");
+                            component_arr_version = component_arr_content.getString("version");
+                            component0 =  component_arr_name + "(" +component_arr_version +")"+"  "+"|"+"  ";
+                            if (t == 0) {
+                                component = component0; // 第一次循环时直接赋值
+                            } else {
+                                component += component0; // 累积每次循环的结果
+                            }
                         }
-                    }
-                    if (component.endsWith("  |  ")){
-                        component = component.substring(0, component.length() - 3);
-                    }
+                        if (component.endsWith("  |  ")){
+                            component = component.substring(0, component.length() - 3);
+                        }
 
+                    }
+                    result_list.add(new JsonBean(
+                            s+1,
+                            json_data_arr_content.getString("is_risk"),
+                            json_data_arr_content.getString("url"),
+                            json_data_arr_content.getString("ip"),
+                            json_data_arr_content.getString("port"),
+                            json_data_arr_content.getString("web_title"),
+                            json_data_arr_content.getString("domain"),
+                            json_data_arr_content.getString("is_risk_protocol"),
+                            json_data_arr_content.getString("protocol"),
+                            json_data_arr_content.getString("base_protocol"),
+                            json_data_arr_content.getString("status_code"),
+                            component,
+                            json_data_arr_content.getString("os"),
+                            json_data_arr_content.getString("company"),
+                            json_data_arr_content.getString("number"),
+                            json_data_arr_content.getString("country"),
+                            json_data_arr_content.getString("province"),
+                            json_data_arr_content.getString("city"),
+                            json_data_arr_content.getString("updated_at"),
+                            json_data_arr_content.getString("is_web"),
+                            json_data_arr_content.getString("as_org"),
+                            json_data_arr_content.getString("isp"),
+                            json_data_arr_content.getString("banner"),
+                            json_data_arr_content.getString("vul_list")
+                    ));
                 }
-                result_list.add(new JsonBean(
-                        s+1,
-                        json_data_arr_content.getString("is_risk"),
-                        json_data_arr_content.getString("url"),
-                        json_data_arr_content.getString("ip"),
-                        json_data_arr_content.getString("port"),
-                        json_data_arr_content.getString("web_title"),
-                        json_data_arr_content.getString("domain"),
-                        json_data_arr_content.getString("is_risk_protocol"),
-                        json_data_arr_content.getString("protocol"),
-                        json_data_arr_content.getString("base_protocol"),
-                        json_data_arr_content.getString("status_code"),
-                        component,
-                        json_data_arr_content.getString("os"),
-                        json_data_arr_content.getString("company"),
-                        json_data_arr_content.getString("number"),
-                        json_data_arr_content.getString("country"),
-                        json_data_arr_content.getString("province"),
-                        json_data_arr_content.getString("city"),
-                        json_data_arr_content.getString("updated_at"),
-                        json_data_arr_content.getString("is_web"),
-                        json_data_arr_content.getString("as_org"),
-                        json_data_arr_content.getString("isp"),
-                        json_data_arr_content.getString("banner"),
-                        json_data_arr_content.getString("vul_list")
-                ));
+
             }
+
 
         }
         else {
@@ -237,33 +295,51 @@ public class HunterController {
         set_key_Stage.setTitle("Set API-KEY");
         set_key_Stage.setScene(new Scene(set_key));
         set_key_Stage.show();
+
+
+//        Alert informationAlert = new Alert(AlertType.NONE);
+//        informationAlert.setTitle("Set API-KEY");
+//        informationAlert.getDialogPane().setContent(set_key);
+////        informationAlert.setHeaderText("导出成功");
+//        informationAlert.showAndWait();
     }
 
     @FXML
-    void key(MouseEvent event) {
+    void key_0(MouseEvent event) {
     }
 
     @FXML
-    void key_Clicked(MouseEvent event) {
-        if(key_id.getText().equals("****************************************************************")){
-            key_id.setText("");
-        }
+    void key_1(MouseEvent event) {
+    }
+    @FXML
+    void key_Clicked_0(MouseEvent event) {
+    }
+
+    @FXML
+    void key_Clicked_1(MouseEvent event) {
     }
 
     @FXML
     void save(ActionEvent event) {
-        String save_key = key_id.getText().trim();
-        if (save_key.length() > 0 && save_key.charAt(0) != '*') {
-            API_KEY = save_key;
-            Properties properties = new Properties();
-            properties.setProperty("Hunter_Key", API_KEY);
-            try (OutputStream output = new FileOutputStream("Huntertool.properties")){
-                properties.store(output, "Huntertool Configuration");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        String save_key_0 = key_id_0.getText().trim();
+        String save_key_1 = key_id_1.getText().trim();
+        String is_key_s = is_key.getValue();
+        String is_key_i;
+        if (is_key_s.equals("内网hunter")){
+            is_key_i = "1";
+        }else {
+            is_key_i = "0";
         }
-        Stage set_key_Stage = (Stage)save_id.getScene().getWindow();
+        Properties properties = new Properties();
+        properties.setProperty("mode",is_key_i);
+        properties.setProperty("Hunter_Key_0", save_key_0);
+        properties.setProperty("Hunter_Key_1", save_key_1);
+        try (OutputStream output = new FileOutputStream("Huntertool.properties")) {
+            properties.store(output, "Huntertool Configuration");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        Stage set_key_Stage = (Stage) save_id.getScene().getWindow();
         set_key_Stage.close();
     }
 
@@ -287,11 +363,33 @@ public class HunterController {
     }
     @FXML
     void pl_cx_1(ActionEvent event) {
-        API_KEY = OtherTools.getkey();
+        String get_web_pl1_S = is_web_pl1.getValue();//获取ChoiceBox选项
+        int get_web_pl1_i;
+        if(get_web_pl1_S.equals("web资产")){
+            get_web_pl1_i = 1;
+        }else if(get_web_pl1_S.equals("非web资产")){
+            get_web_pl1_i = 2;
+        }else {
+            get_web_pl1_i = 3;
+        }
+
+        String time_pl1_S = time_pl1.getValue();
+        DateTimeFormatter Date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String Date_m;
+        String Date_p = Date.format(LocalDateTime.now());
+        if(time_pl1_S.equals("最近一月")){
+            Date_m = Date.format(LocalDateTime.now().minusMonths(1));
+        } else if (time_pl1_S.equals("最近半年")) {
+            Date_m = Date.format(LocalDateTime.now().minusMonths(6));
+        }else {
+            Date_m = Date.format(LocalDateTime.now().minusMonths(12));
+        }
+
+        API_KEY = OtherTools.getkey(Integer.parseInt(OtherTools.getveriosn()));
         String originalText = this.pl_cx_1_TextArea.getText().trim();
         originalText = "1\r\n" + originalText; //从第二行开始读取数据
         try {
-            response_string_pl1 = NetworkTools.search_pl1(0,API_KEY,originalText,"2023-12-01","2024-01-22",1);
+            response_string_pl1 = NetworkTools.search_pl1(Integer.parseInt(OtherTools.getveriosn()),OtherTools.getkey(Integer.parseInt(OtherTools.getveriosn())),originalText,Date_m, Date_p,get_web_pl1_i);
             int code = JSONObject.parseObject(response_string_pl1).getInteger("code");
             if (code == 200){
                 JSONObject json_data = JSONObject.parseObject(response_string_pl1).getJSONObject("data");
@@ -316,9 +414,32 @@ public class HunterController {
 
     @FXML
     void pl_cx_2(ActionEvent event) {
-        API_KEY = OtherTools.getkey();
+        API_KEY = OtherTools.getkey(Integer.parseInt(OtherTools.getveriosn()));
         String originalText = this.pl_cx_2_TextArea.getText().trim();
-        NetworkTools.pl2(originalText,API_KEY);
+
+        String get_web_pl2_S = is_web_pl2.getValue();//获取ChoiceBox选项
+        int get_web_pl2_i;
+        if(get_web_pl2_S.equals("web资产")){
+            get_web_pl2_i = 1;
+        }else if(get_web_pl2_S.equals("非web资产")){
+            get_web_pl2_i = 2;
+        }else {
+            get_web_pl2_i = 3;
+        }
+
+        String time_pl2_S = time_pl2.getValue();
+        DateTimeFormatter Date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String Date_m;
+        String Date_p = Date.format(LocalDateTime.now());
+        if(time_pl2_S.equals("最近一月")){
+            Date_m = Date.format(LocalDateTime.now().minusMonths(1));
+        } else if (time_pl2_S.equals("最近半年")) {
+            Date_m = Date.format(LocalDateTime.now().minusMonths(6));
+        }else {
+            Date_m = Date.format(LocalDateTime.now().minusMonths(12));
+        }
+
+        NetworkTools.pl2(Integer.parseInt(OtherTools.getveriosn()),OtherTools.getkey(Integer.parseInt(OtherTools.getveriosn())),originalText,Date_m, Date_p,get_web_pl2_i);
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("information");
         alert.setHeaderText("查询完毕，导出成功");
@@ -328,13 +449,13 @@ public class HunterController {
     @FXML
     void pl_dc_1(ActionEvent event) {
         try {
-            String response_task_progress = NetworkTools.task_progress(0,API_KEY,taskid);
+            String response_task_progress = NetworkTools.task_progress(Integer.parseInt(OtherTools.getveriosn()),API_KEY,taskid);
             int code = JSONObject.parseObject(response_task_progress).getInteger("code");
             if (code == 200){
                 JSONObject json_data = JSONObject.parseObject(response_task_progress).getJSONObject("data");
                 String progress = json_data.getString("progress");
                 if (progress.equals("100%")){
-                    NetworkTools.download(0,API_KEY,taskid,filename);
+                    NetworkTools.download(Integer.parseInt(OtherTools.getveriosn()),OtherTools.getkey(Integer.parseInt(OtherTools.getveriosn())),taskid,filename);
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("information");
                     alert.setHeaderText("导出成功");
@@ -391,9 +512,32 @@ public class HunterController {
             } catch (IOException e) {
             e.printStackTrace();
         }
-        API_KEY = OtherTools.getkey();
+        API_KEY = OtherTools.getkey(Integer.parseInt(OtherTools.getveriosn()));
+
+        String get_web_pl1_S = is_web_pl1.getValue();//获取ChoiceBox选项
+        int get_web_pl1_i;
+        if(get_web_pl1_S.equals("web资产")){
+            get_web_pl1_i = 1;
+        }else if(get_web_pl1_S.equals("非web资产")){
+            get_web_pl1_i = 2;
+        }else {
+            get_web_pl1_i = 3;
+        }
+
+        String time_pl1_S = time_pl1.getValue();
+        DateTimeFormatter Date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String Date_m;
+        String Date_p = Date.format(LocalDateTime.now());
+        if(time_pl1_S.equals("最近一月")){
+            Date_m = Date.format(LocalDateTime.now().minusMonths(1));
+        } else if (time_pl1_S.equals("最近半年")) {
+            Date_m = Date.format(LocalDateTime.now().minusMonths(6));
+        }else {
+            Date_m = Date.format(LocalDateTime.now().minusMonths(12));
+        }
+
         try {
-            response_string_pl1 = NetworkTools.search_pl1(0,API_KEY,csvText,"2023-12-01","2024-01-22",1);
+            response_string_pl1 = NetworkTools.search_pl1(Integer.parseInt(OtherTools.getveriosn()),OtherTools.getkey(Integer.parseInt(OtherTools.getveriosn())),csvText,Date_m, Date_p, get_web_pl1_i);
             int code = JSONObject.parseObject(response_string_pl1).getInteger("code");
             if (code == 200){
                 JSONObject json_data = JSONObject.parseObject(response_string_pl1).getJSONObject("data");
@@ -419,7 +563,7 @@ public class HunterController {
 
     @FXML
     void pl_scwj_2(ActionEvent event) {
-        API_KEY = OtherTools.getkey();
+        API_KEY = OtherTools.getkey(Integer.parseInt(OtherTools.getveriosn()));
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("选择文件");
         fileChooser.setInitialDirectory(new File("C:"));
@@ -448,7 +592,30 @@ public class HunterController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        NetworkTools.pl2(csvText,API_KEY);
+
+        String get_web_pl2_S = is_web_pl2.getValue();//获取ChoiceBox选项
+        int get_web_pl2_i;
+        if(get_web_pl2_S.equals("web资产")){
+            get_web_pl2_i = 1;
+        }else if(get_web_pl2_S.equals("非web资产")){
+            get_web_pl2_i = 2;
+        }else {
+            get_web_pl2_i = 3;
+        }
+
+        String time_pl2_S = time_pl2.getValue();
+        DateTimeFormatter Date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String Date_m;
+        String Date_p = Date.format(LocalDateTime.now());
+        if(time_pl2_S.equals("最近一月")){
+            Date_m = Date.format(LocalDateTime.now().minusMonths(1));
+        } else if (time_pl2_S.equals("最近半年")) {
+            Date_m = Date.format(LocalDateTime.now().minusMonths(6));
+        }else {
+            Date_m = Date.format(LocalDateTime.now().minusMonths(12));
+        }
+
+        NetworkTools.pl2(Integer.parseInt(OtherTools.getveriosn()),OtherTools.getkey(Integer.parseInt(OtherTools.getveriosn())),csvText,Date_m, Date_p,get_web_pl2_i);
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("information");
         alert.setHeaderText("查询完毕，导出成功");
@@ -477,8 +644,35 @@ public class HunterController {
                         "domain==\"tabao.com\"")){
             pl_cx_2_TextArea.setText("");
         }
-
-
     }
+
+    public void initialize(URL location, ResourceBundle resource){
+        if (location.toString().contains("view_main.fxml")){  //打开新的fxml文件时，会再次调用initialize，需要对fxml文件进行判断避免造成空指针报错
+            is_web.setItems(FXCollections.observableArrayList("web资产","非web资产","全部"));
+            is_web.setValue("全部");
+            time.setItems(FXCollections.observableArrayList("最近一月","最近半年","最近一年"));
+            time.setValue("最近一年");
+            is_web_pl1.setItems(FXCollections.observableArrayList("web资产","非web资产","全部"));
+            is_web_pl1.setValue("全部");
+            time_pl1.setItems(FXCollections.observableArrayList("最近一月","最近半年","最近一年"));
+            time_pl1.setValue("最近一年");
+            is_web_pl2.setItems(FXCollections.observableArrayList("web资产","非web资产","全部"));
+            is_web_pl2.setValue("全部");
+            time_pl2.setItems(FXCollections.observableArrayList("最近一月","最近半年","最近一年"));
+            time_pl2.setValue("最近一年");
+
+
+        }
+        if (location.toString().contains("view_key.fxml")){
+            is_key.setItems(FXCollections.observableArrayList("内网hunter","外网hunter"));
+            is_key.setValue(OtherTools.get_is_key());
+            key_id_0.setText(OtherTools.getkey(0));
+            key_id_1.setText(OtherTools.getkey(1));
+        }
+    }
+
+
+
+
 }
 

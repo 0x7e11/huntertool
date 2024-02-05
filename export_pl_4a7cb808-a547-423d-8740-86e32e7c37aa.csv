@@ -1,0 +1,17 @@
+序号, IP, 域名, 端口, 服务, title, 组件（版本）, ICP, 地理位置, 状态码, ISP
+1,101.227.27.54,qaxc.cn,443,tcp,奇安星城,https,,上海市,200,中国电信
+2,101.227.27.54,qaxc.cn,80,tcp,奇安星城,http,,上海市,200,中国电信
+1,175.6.28.167,lgdyf.hcyy.com,4433,tcp,SSLVPN登录,https,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+2,175.6.28.167,lgdyf.hcyy.com,8899,tcp,MidService Web 服务,http,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+3,175.6.28.167,lgdyf.hcyy.com,9443,tcp,NSFOCUS,https,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+4,175.6.28.167,lgdyf.hcyy.com,7070,tcp,Message HTTP Binding Service,http,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+5,175.6.28.167,lgdyf.hcyy.com,8999,tcp,移动管理平台-企业管理,http,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+6,175.6.28.167,lgdyf.hcyy.com,443,tcp,,https,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+7,175.6.28.167,lgdyf.hcyy.com,9081,tcp,运维平台,http,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+8,175.6.28.167,lgdyf.hcyy.com,4430,tcp,用户认证 - NSFOCUS NF,https,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+9,175.6.28.167,lgdyf.hcyy.com,8889,tcp,MidService Web 服务,http,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+10,175.6.28.167,lgdyf.hcyy.com,9181,tcp,电子签署平台管理后台,http,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+11,175.6.28.167,lgdyf.hcyy.com,7789,tcp,Home Page,http,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+12,175.6.28.167,lgdyf.hcyy.com,9180,tcp,湖南恒昌医药电子签约管理控制台,http,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+13,175.6.28.167,lgdyf.hcyy.com,8603,tcp,MidService Web 服务,http,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信
+14,175.6.28.167,lgdyf.hcyy.com,80,tcp,Sorry,http,湖南恒昌医药集团股份有限公司,湖南省,200,中国电信

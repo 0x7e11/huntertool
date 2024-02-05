@@ -20,9 +20,9 @@ public class NetworkTools {
         String response_content = "";
         try {
             if (version == 1) {
-                url = "https://inner.hunter.qianxin-inc.cn/openApi/search?api-key=" + key + "&search=" + search_base64url + "&start_time=" + start_time + "&end_time=" + end_time + "&page=" + page + "&page_size=" + page_size + "&is_web=" + is_web + "&status_code=" + status_code;
+                url = "https://inner.hunter.qianxin-inc.cn/openApi/search?api-key=" + key + "&search=" + search_base64url + "&start_time=" + start_time + "&end_time=" + end_time + "&page=" + page + "&page_size=" + page_size + "&is_web=" + is_web + "&status_code=";//官方接口中status_code参数无作用
             } else {
-                url = "https://hunter.qianxin.com/openApi/search?api-key=" + key + "&search=" + search_base64url + "&start_time=" + start_time + "&end_time=" + end_time + "&page=" + page + "&page_size=" + page_size + "&is_web=" + is_web + "&status_code=" + status_code;
+                url = "https://hunter.qianxin.com/openApi/search?api-key=" + key + "&search=" + search_base64url + "&start_time=" + start_time + "&end_time=" + end_time + "&page=" + page + "&page_size=" + page_size + "&is_web=" + is_web + "&status_code=";
             }
             URL hunter_url = new URL(url);
             System.out.println(url);
@@ -50,9 +50,9 @@ public class NetworkTools {
         String request_data = "";
         try{
             if(version == 1){
-                url = "https://inner.hunter.qianxin-inc.cn/openApi/search/batch?api-key=" + key;
+                url = "https://inner.hunter.qianxin-inc.cn/openApi/search/batch?api-key=" + key + "&start_time=" + start_time + "&end_time=" + end_time + "&is_web=" + is_web + "&status_code=";
             }else {
-                url = "https://hunter.qianxin.com/openApi/search/batch?api-key=" + key;
+                url = "https://hunter.qianxin.com/openApi/search/batch?api-key=" + key + "&start_time=" + start_time + "&end_time=" + end_time + "&is_web=" + is_web + "&status_code=";
             }
             URL hunter_url = new URL(url);
             System.out.println(url);
@@ -147,7 +147,7 @@ public class NetworkTools {
         connection.disconnect();
 
     }
-    public static void pl2(String originalText,String API_KEY){
+    public static void pl2(int version,String API_KEY,String originalText,String start_time,String end_time,int is_web){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("export_pl_" + UUID.randomUUID().toString() + ".csv"))) {
             writer.write("序号, IP, 域名, 端口, 服务, title, 组件（版本）, ICP, 地理位置, 状态码, ISP\n");
             try(BufferedReader reader = new BufferedReader(new StringReader(originalText))){
@@ -156,9 +156,9 @@ public class NetworkTools {
                     System.out.println(line);
                     String encodedText = Base64.getUrlEncoder().encodeToString(line.getBytes(StandardCharsets.UTF_8));
                     try {
-                        String response_content_pl2 = NetworkTools.search(0, API_KEY, encodedText, "2023-12-01", "2024-02-02", 1, 100, 1, 200);
+                        String response_content_pl2 = NetworkTools.search(version, API_KEY, encodedText, start_time, end_time, 1, 100, is_web, 200);
                         System.out.println(response_content_pl2);
-                        ObservableList<JsonBean> result_list_pl2 = OtherTools.datap_rocessing(response_content_pl2);
+                        ObservableList<JsonBean> result_list_pl2 = OtherTools.data_processing(response_content_pl2);
                         System.out.println(result_list_pl2);
                         for (int i = 0; i < result_list_pl2.size(); i++) {
                             JsonBean jsonBean = result_list_pl2.get(i);
