@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="885.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.huntertool.yufaController">
+  <tabs>
+    <Tab text="常用语法">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="314.0" prefWidth="557.0">
+               <children>
+                  <TableView fx:id="tableView1" prefHeight="539.0" prefWidth="885.0">
+                    <columns>
+                      <TableColumn fx:id="column1_content" prefWidth="464.0" text="语法内容" />
+                      <TableColumn fx:id="column1_illustrate" prefWidth="420.0" text="语法说明" />
+                    </columns>
+                  </TableView>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab text="网站信息">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="314.0" prefWidth="557.0">
+               <children>
+                  <TableView fx:id="tableView2" prefHeight="539.0" prefWidth="885.0">
+                     <columns>
+                        <TableColumn fx:id="column2_content" prefWidth="464.0" text="语法内容" />
+                        <TableColumn fx:id="column2_illustrate" prefWidth="420.0" text="语法说明" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="ICP备案">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="314.0" prefWidth="557.0">
+               <children>
+                  <TableView fx:id="tableView3" prefHeight="539.0" prefWidth="885.0">
+                     <columns>
+                        <TableColumn fx:id="column3_content" prefWidth="464.0" text="语法内容" />
+                        <TableColumn fx:id="column3_illustrate" prefWidth="420.0" text="语法说明" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="域名&amp;IP">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="314.0" prefWidth="557.0">
+               <children>
+                  <TableView fx:id="tableView4" prefHeight="539.0" prefWidth="885.0">
+                     <columns>
+                        <TableColumn fx:id="column4_content" prefWidth="464.0" text="语法内容" />
+                        <TableColumn fx:id="column4_illustrate" prefWidth="420.0" text="语法说明" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="组件信息">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="314.0" prefWidth="557.0">
+               <children>
+                  <TableView fx:id="tableView5" prefHeight="539.0" prefWidth="885.0">
+                     <columns>
+                        <TableColumn fx:id="column5_content" prefWidth="464.0" text="语法内容" />
+                        <TableColumn fx:id="column5_illustrate" prefWidth="420.0" text="语法说明" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="hunter特色">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="314.0" prefWidth="557.0">
+               <children>
+                  <TableView fx:id="tableView6" prefHeight="539.0" prefWidth="885.0">
+                     <columns>
+                        <TableColumn fx:id="column6_content" prefWidth="464.0" text="语法内容" />
+                        <TableColumn fx:id="column6_illustrate" prefWidth="420.0" text="语法说明" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="网站证书">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="314.0" prefWidth="557.0">
+               <children>
+                  <TableView fx:id="tableView7" prefHeight="539.0" prefWidth="885.0">
+                     <columns>
+                        <TableColumn fx:id="column7_content" prefWidth="464.0" text="语法内容" />
+                        <TableColumn fx:id="column7_illustrate" prefWidth="420.0" text="语法说明" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>

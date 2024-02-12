@@ -7,6 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.*;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
 
 public class OtherTools {
@@ -21,11 +24,12 @@ public class OtherTools {
                 input.close();
                 if (id == 1){
                     API_KEY = properties.getProperty("Hunter_Key_1");//读取key
-                }else {
+                } else {
                     API_KEY = properties.getProperty("Hunter_Key_0");//读取key
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
+//                return "-1 ";
             }
         }
         return API_KEY;
@@ -47,8 +51,10 @@ public class OtherTools {
                     mode = "内网hunter";//读取key
                 }
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                return "-1";
             }
+        }else {
+            return "-1";
         }
         return mode;
     }
@@ -66,8 +72,10 @@ public class OtherTools {
                 input.close();
                 id = properties.getProperty("mode");
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                return "-1";
             }
+        }else {
+            return "-1";
         }
         return id;
     }
@@ -122,7 +130,7 @@ public class OtherTools {
                             json_data_arr_content.getString("os"),
                             json_data_arr_content.getString("company"),
                             json_data_arr_content.getString("number"),
-                            json_data_arr_content.getString("country"),
+                            json_data_arr_content.getString("country")+"-"+json_data_arr_content.getString("province")+"-"+json_data_arr_content.getString("city"),
                             json_data_arr_content.getString("province"),
                             json_data_arr_content.getString("city"),
                             json_data_arr_content.getString("updated_at"),
@@ -138,4 +146,22 @@ public class OtherTools {
         }
         return result_list;
     }
+
+    public static String getHash(byte[] data){
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] digest = md.digest(data);
+            BigInteger bigInt = new BigInteger(1, digest);
+            String hash = bigInt.toString(16);
+            while (hash.length() < 32) {
+                hash = "0" + hash;
+            }
+            return hash;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
 }
