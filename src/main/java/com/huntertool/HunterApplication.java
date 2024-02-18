@@ -3,6 +3,7 @@ package com.huntertool;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -15,9 +16,10 @@ public class HunterApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hunter Tool");
         stage.setScene(scene);
+        stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
         stage.show();
-        System.getProperties().setProperty("https.proxyHost", "127.0.0.1");
-        System.getProperties().setProperty("https.proxyPort", "8080");
+//        System.getProperties().setProperty("https.proxyHost", "127.0.0.1");
+//        System.getProperties().setProperty("https.proxyPort", "8080");
     }
 
     public static void main(String[] args) {

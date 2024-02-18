@@ -32,7 +32,7 @@ public class NetworkTools {
             HttpsURLConnection connection = (HttpsURLConnection) hunter_url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));//没有StandardCharsets.UTF_8则会导致需要指定编码启动
             String line;
             StringBuilder response = new StringBuilder();
             while ((line = reader.readLine()) != null) {
@@ -77,7 +77,7 @@ public class NetworkTools {
             outputStream.flush();
             outputStream.close();
             connection.connect();
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             String inputline;
             StringBuilder response = new StringBuilder();
             while ((inputline = in.readLine()) != null){
@@ -108,7 +108,7 @@ public class NetworkTools {
             System.out.println(url);
             HttpsURLConnection connection = (HttpsURLConnection) hunter_url.openConnection();
             connection.setRequestMethod("GET");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             String line;
             StringBuilder response = new StringBuilder();
             while ((line = reader.readLine()) != null) {

@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="885.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.huntertool.yufaController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="885.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.huntertool.yufaController">
   <tabs>
     <Tab text="常用语法">
       <content>
@@ -35,7 +35,7 @@
             </AnchorPane>
          </content>
       </Tab>
-      <Tab text="ICP备案">
+      <Tab text="域名&amp;IP">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="314.0" prefWidth="557.0">
                <children>
@@ -49,7 +49,7 @@
             </AnchorPane>
          </content>
       </Tab>
-      <Tab text="域名&amp;IP">
+      <Tab text="ICP备案">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="314.0" prefWidth="557.0">
                <children>

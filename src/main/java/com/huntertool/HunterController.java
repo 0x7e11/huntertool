@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -237,8 +238,10 @@ public class HunterController implements Initializable {
                             System.out.println(json_data.getString("arr"));
                             if (json_data.getString("arr") == null){
                                 Alert alert = new Alert(AlertType.INFORMATION);
-                                alert.setTitle("INFORMATION");
+                                alert.setTitle(" INFORMATION");
                                 alert.setHeaderText("未查询到相关内容");
+                                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                                stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
                                 alert.showAndWait();
                             }else {
                                 JSONArray json_data_arr = json_data.getJSONArray("arr");
@@ -304,8 +307,10 @@ public class HunterController implements Initializable {
                         }
                         else {
                             Alert alert = new Alert(AlertType.ERROR);
-                            alert.setTitle("Error");
+                            alert.setTitle(" Error");
                             alert.setHeaderText(JSONObject.parseObject(response_string).getString("message"));
+                            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                            stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
                             alert.showAndWait();
                         }
                     }
@@ -351,6 +356,7 @@ public class HunterController implements Initializable {
         Stage set_key_Stage = new Stage();
         set_key_Stage.setTitle("Set API-KEY");
         set_key_Stage.setScene(new Scene(set_key));
+        set_key_Stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
         set_key_Stage.show();
 
 
@@ -395,9 +401,12 @@ public class HunterController implements Initializable {
 
             shuru_id.setText("web.icon=\"" + OtherTools.getHash(data) + "\"");
             TableView_id.getItems().clear();
+            TableView_id.setPlaceholder(new Label("请点击查询"));
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("INFORMATION");
+            alert.setTitle(" INFORMATION");
             alert.setHeaderText("请点击查询");
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
             alert.showAndWait();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -412,8 +421,9 @@ public class HunterController implements Initializable {
     void yufa(ActionEvent event) throws IOException {
         TabPane set_key = FXMLLoader.load(getClass().getResource("view_yufa.fxml"));
         Stage set_key_Stage = new Stage();
-        set_key_Stage.setTitle("常用语法");
+        set_key_Stage.setTitle("语法参考");
         set_key_Stage.setScene(new Scene(set_key));
+        set_key_Stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
         set_key_Stage.show();
     }
 
@@ -452,8 +462,10 @@ public class HunterController implements Initializable {
                 writer.write((i+1) + "," + jsonBean.getIp() + "," + jsonBean.getDomain() + "," + jsonBean.getPort() + "," + jsonBean.getBase_protocol() + "," + jsonBean.getWeb_title() + "," + jsonBean.getProtocol() + "," + jsonBean.getCompany() + "," + jsonBean.getProvince() + "," + jsonBean.getStatus_code() + "," + jsonBean.getIsp() +"\n");
             }
             Alert informationAlert = new Alert(AlertType.INFORMATION);
-            informationAlert.setTitle("Export Results");
+            informationAlert.setTitle(" Export Results");
             informationAlert.setHeaderText("导出成功");
+            Stage stage = (Stage) informationAlert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
             informationAlert.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
@@ -503,14 +515,18 @@ public class HunterController implements Initializable {
                 taskid = json_data.getInteger("task_id");
                 filename = json_data.getString("filename");
                 Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("information");
+                alert.setTitle(" information");
                 alert.setHeaderText("查询成功，请点击导出结果");
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
                 alert.showAndWait();
             }
             else {
                 Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error");
+                alert.setTitle(" Error");
                 alert.setHeaderText(JSONObject.parseObject(response_string_pl1).getString("message"));
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
                 alert.showAndWait();
             }
 
@@ -556,15 +572,19 @@ public class HunterController implements Initializable {
 
         if(API_KEY.equals("") | OtherTools.getveriosn().equals("-1")){
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("ERROR");
+            alert.setTitle(" ERROR");
             alert.setHeaderText("请检查设置内容");
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
             alert.showAndWait();
             return;
         }else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("information");
+            alert.setTitle(" information");
             alert.setHeaderText("开始查询，请稍后");
             alert.setContentText("网络通畅的情况下执行速度为2s/条");
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
             alert.show();//不阻塞主线程
         }
 
@@ -580,8 +600,10 @@ public class HunterController implements Initializable {
                     @Override
                     public void run() {   //弹窗的显示将在主线程中进行，不会阻塞任务的执行
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("information");
+                        alert.setTitle(" information");
                         alert.setHeaderText("查询完毕，导出成功");
+                        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                        stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
                         alert.showAndWait();
                     }
                 });
@@ -611,21 +633,27 @@ public class HunterController implements Initializable {
                 if (progress.equals("100%")){
                     NetworkTools.download(Integer.parseInt(OtherTools.getveriosn()),OtherTools.getkey(Integer.parseInt(OtherTools.getveriosn())),taskid,filename);
                     Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("information");
+                    alert.setTitle(" information");
                     alert.setHeaderText("导出成功");
+                    Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
                     alert.showAndWait();
 
                 }else {
                     Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Error");
+                    alert.setTitle(" Error");
                     alert.setHeaderText("progress:"+progress);
+                    Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                    stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
                     alert.showAndWait();
                 }
             }
             else {
                 Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error");
+                alert.setTitle(" Error");
                 alert.setHeaderText(JSONObject.parseObject(response_task_progress).getString("message"));
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
                 alert.showAndWait();
             }
 
@@ -706,14 +734,18 @@ public class HunterController implements Initializable {
                 taskid = json_data.getInteger("task_id");
                 filename = json_data.getString("filename");
                 Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("information");
+                alert.setTitle(" information");
                 alert.setHeaderText("上传成功，请点击导出结果");
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
                 alert.showAndWait();
             }
             else {
                 Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error");
+                alert.setTitle(" Error");
                 alert.setHeaderText(JSONObject.parseObject(response_string_pl1).getString("message"));
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
                 alert.showAndWait();
             }
 
@@ -789,15 +821,19 @@ public class HunterController implements Initializable {
 
         if(API_KEY.equals("") | OtherTools.getveriosn().equals("-1")){
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("ERROR");
+            alert.setTitle(" ERROR");
             alert.setHeaderText("请检查设置内容");
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
             alert.showAndWait();
             return;
         }else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("information");
+            alert.setTitle(" information");
             alert.setHeaderText("开始查询，请稍后");
             alert.setContentText("网络通畅的情况下执行速度为2s/条");
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
             alert.show();//不阻塞主线程
         }
 
@@ -813,8 +849,10 @@ public class HunterController implements Initializable {
                     @Override
                     public void run() {   //弹窗的显示将在主线程中进行，不会阻塞任务的执行
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("information");
+                        alert.setTitle(" information");
                         alert.setHeaderText("查询完毕，导出成功");
+                        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                        stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
                         alert.showAndWait();
                     }
                 });
