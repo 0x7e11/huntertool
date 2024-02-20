@@ -16,6 +16,7 @@ public class HunterApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hunter Tool");
         stage.setScene(scene);
+        stage.setOnCloseRequest(event -> System.exit(0));//同时退出子线程
         stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
         stage.show();
 //        System.getProperties().setProperty("https.proxyHost", "127.0.0.1");
