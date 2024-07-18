@@ -6,13 +6,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="367.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.huntertool.HunterController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="367.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.huntertool.HunterController">
    <children>
       <Label layoutX="39.0" layoutY="35.0" text="API-KEY(外):" />
-      <TextField fx:id="key_id_0" layoutX="115.0" layoutY="31.0" onAction="#key_0" onMouseClicked="#key_Clicked_0" prefHeight="23.0" prefWidth="199.0"/>
+      <TextField fx:id="key_id_outer" layoutX="115.0" layoutY="31.0" onAction="#key_outer" onMouseClicked="#key_Clicked_0" prefHeight="23.0" prefWidth="199.0" />
       <Button fx:id="save_id" layoutX="162.0" layoutY="148.0" mnemonicParsing="false" onAction="#save" text="Save" />
       <Label layoutX="39.0" layoutY="73.0" text="API-KEY(内):" />
-      <TextField fx:id="key_id_1" layoutX="115.0" layoutY="69.0" onAction="#key_1" onMouseClicked="#key_Clicked_1" prefHeight="23.0" prefWidth="199.0"/>
+      <TextField fx:id="key_id_inner" layoutX="115.0" layoutY="69.0" onAction="#key_inner" onMouseClicked="#key_Clicked_1" prefHeight="23.0" prefWidth="199.0" />
       <Label layoutX="81.0" layoutY="110.0" text="模式:" />
       <ChoiceBox fx:id="is_key" layoutX="115.0" layoutY="106.0" prefHeight="23.0" prefWidth="103.0" />
    </children>

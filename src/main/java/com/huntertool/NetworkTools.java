@@ -16,13 +16,64 @@ import java.security.NoSuchProviderException;
 import java.util.Base64;
 import java.util.UUID;
 
+import javax.net.ssl.X509TrustManager;
+import java.security.cert.X509Certificate;
+import java.security.cert.CertificateException;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.*;
+
+
+
+
 
 public class NetworkTools {
-    public static String search(int version,String key,String search_base64url,String start_time,String end_time,int page,int page_size,int is_web,String port_filter,int status_code) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, KeyManagementException {
+
+
+    static {//忽略ssl证书验证
+        try {
+            trustAllHttpsCertificates();
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                public boolean verify(String urlHostName, SSLSession session) {
+                    return true;
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
+
+    private static void trustAllHttpsCertificates() throws NoSuchAlgorithmException,     KeyManagementException {
+        TrustManager[] trustAllCerts = new TrustManager[1];
+        trustAllCerts[0] = new TrustAllManager();
+        SSLContext sc = SSLContext.getInstance("SSL");
+        sc.init(null, trustAllCerts, null);
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+    }
+
+    private static class TrustAllManager implements X509TrustManager {
+
+        public X509Certificate[] getAcceptedIssuers() {
+            return null;
+        }
+
+        public void checkServerTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+        }
+
+        public void checkClientTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+        }
+    }
+
+
+
+
+
+    public static String search(String version,String key,String search_base64url,String start_time,String end_time,int page,int page_size,int is_web,String port_filter,int status_code) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, KeyManagementException {
         String url = "";
         String response_content = "";
         try {
-            if (version == 1) {
+            if (version.equals("inner")) {
                 url = "https://inner.hunter.qianxin-inc.cn/openApi/search?api-key=" + key + "&search=" + search_base64url + "&start_time=" + start_time + "&end_time=" + end_time + "&page=" + page + "&page_size=" + page_size + "&is_web=" + is_web + "&port_filter=" + port_filter + "&status_code=";//官方接口中status_code参数无作用
             } else {
                 url = "https://hunter.qianxin.com/openApi/search?api-key=" + key + "&search=" + search_base64url + "&start_time=" + start_time + "&end_time=" + end_time + "&page=" + page + "&page_size=" + page_size + "&is_web=" + is_web + "&port_filter=" + port_filter + "&status_code=";
@@ -47,12 +98,15 @@ public class NetworkTools {
         return response_content;
     }
 
-    public static String search_pl1(int version,String key,String search_content,String start_time,String end_time,int is_web,String port_filter) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, KeyManagementException {
+    public static String search_pl1(String version,String key,String search_content,String start_time,String end_time,int is_web,String port_filter) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, KeyManagementException {
+
+
+
         String url = "";
         String response_content = "";
         String request_data = "";
         try{
-            if(version == 1){
+            if(version.equals("inner")){
                 url = "https://inner.hunter.qianxin-inc.cn/openApi/search/batch?api-key=" + key + "&start_time=" + start_time + "&end_time=" + end_time + "&is_web=" + is_web + "&port_filter=" + port_filter +"&status_code=";
             }else {
                 url = "https://hunter.qianxin.com/openApi/search/batch?api-key=" + key + "&start_time=" + start_time + "&end_time=" + end_time + "&is_web=" + is_web + "&port_filter=" + port_filter +"&status_code=";
@@ -94,12 +148,12 @@ public class NetworkTools {
         return response_content;
     }
 
-    public static String task_progress(int version,String key,int taskid){
+    public static String task_progress(String version,String key,int taskid){
         String url = "";
         String response_content = "";
         String request_data = "";
         try{
-            if(version == 1){
+            if(version.equals("inner")){
                 url = "https://inner.hunter.qianxin-inc.cn/openApi/search/batch/" + taskid + "?api-key=" + key;
             }else {
                 url = "https://hunter.qianxin.com/openApi/search/batch/" + taskid + "?api-key=" + key;
@@ -123,11 +177,11 @@ public class NetworkTools {
         }
         return response_content;
     }
-    public static void download(int version,String key,int taskid,String filename)throws Exception{
+    public static void download(String version,String key,int taskid,String filename)throws Exception{
         String url = "";
         String response_content = "";
         String request_data = "";
-        if(version == 1){
+        if(version.equals("inner")){
             url = "https://inner.hunter.qianxin-inc.cn/openApi/search/download/" + taskid + "?api-key=" + key;
         }else {
             url = "https://hunter.qianxin.com/openApi/search/download/" + taskid + "?api-key=" + key;
@@ -150,7 +204,7 @@ public class NetworkTools {
         connection.disconnect();
 
     }
-    public static void pl2(int version,String API_KEY,String originalText,String start_time,String end_time,int is_web,String port_filter){
+    public static void pl2(String version,String API_KEY,String originalText,String start_time,String end_time,int is_web,String port_filter){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("export_pl_" + UUID.randomUUID().toString() + ".csv"))) {
             writer.write("IP, 域名, 端口, 服务, title, 组件（版本）, ICP, 地理位置, 状态码, ISP\n");
             try(BufferedReader reader = new BufferedReader(new StringReader(originalText))){

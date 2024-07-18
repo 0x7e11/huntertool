@@ -19,8 +19,12 @@ public class HunterApplication extends Application {
         stage.setOnCloseRequest(event -> System.exit(0));//同时退出子线程
         stage.getIcons().add(new Image(getClass().getResource("1.jpeg").toExternalForm()));
         stage.show();
+        if(OtherTools.get_is_proxy().equals("开启")){
+            System.getProperties().setProperty("https.proxyHost", OtherTools.getip());
+            System.getProperties().setProperty("https.proxyPort", OtherTools.getport());
+        }
 //        System.getProperties().setProperty("https.proxyHost", "127.0.0.1");
-//        System.getProperties().setProperty("https.proxyPort", "8080");
+//        System.getProperties().setProperty("https.proxyPort", "18888");
     }
 
     public static void main(String[] args) {

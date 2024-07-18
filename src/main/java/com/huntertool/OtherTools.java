@@ -13,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
 
 public class OtherTools {
-    public static String getkey(int id){
+    public static String getkey(String S){
         String API_KEY = "";
         File file = new File("Huntertool.properties");
         if (file.exists()) {
@@ -22,21 +22,69 @@ public class OtherTools {
                 InputStream input = new FileInputStream("Huntertool.properties");
                 properties.load(input);
                 input.close();
-                if (id == 1){
-                    API_KEY = properties.getProperty("Hunter_Key_1");//读取key
+                if (S.equals("outer")){
+                    API_KEY = properties.getProperty("Hunter_Key_outer");//读取key
                 } else {
-                    API_KEY = properties.getProperty("Hunter_Key_0");//读取key
+                    API_KEY = properties.getProperty("Hunter_Key_inner");//读取key
+                }
+                if(API_KEY == null){  //避免文件存在而配置不存在导致的null报错
+                    API_KEY = "";
                 }
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                return API_KEY;
+//                throw new RuntimeException(e);
 //                return "-1 ";
             }
         }
         return API_KEY;
     }
 
+    public static String getip(){
+        String proxy_ip = "";
+        File file = new File("Huntertool.properties");
+        if (file.exists()) {
+            Properties properties = new Properties();
+            try {
+                InputStream input = new FileInputStream("Huntertool.properties");
+                properties.load(input);
+                input.close();
+                proxy_ip = properties.getProperty("proxy_ip");
+                if(proxy_ip == null){
+                    proxy_ip = "";
+                }
+            } catch (Exception e) {
+                return proxy_ip;
+//                throw new RuntimeException(e);
+//                return "-1 ";
+            }
+        }
+        return proxy_ip;
+    }
 
-    public static String get_is_key(){
+    public static String getport(){
+        String proxy_port = "";
+        File file = new File("Huntertool.properties");
+        if (file.exists()) {
+            Properties properties = new Properties();
+            try {
+                InputStream input = new FileInputStream("Huntertool.properties");
+                properties.load(input);
+                input.close();
+                proxy_port = properties.getProperty("proxy_port");
+                if(proxy_port == null){
+                    proxy_port = "";
+                }
+            } catch (Exception e) {
+                return proxy_port;
+//                throw new RuntimeException(e);
+//                return "-1 ";
+            }
+        }
+        return proxy_port;
+    }
+
+
+    public static String get_is_key(){//获取配置文件中模式的设置
         String mode = "";
         File file = new File("Huntertool.properties");
         if (file.exists()) {
@@ -45,7 +93,7 @@ public class OtherTools {
                 InputStream input = new FileInputStream("Huntertool.properties");
                 properties.load(input);
                 input.close();
-                if (properties.getProperty("mode").equals("0")){
+                if (properties.getProperty("Hunter_mode").equals("outer")){
                     mode = "外网hunter";//读取key
                 }else {
                     mode = "内网hunter";//读取key
@@ -59,6 +107,27 @@ public class OtherTools {
         return mode;
     }
 
+    public static String get_is_proxy(){ //获取代理是否开启
+        String proxy = "关闭";
+        File file = new File("Huntertool.properties");
+        if (file.exists()) {
+            Properties properties = new Properties();
+            try {
+                InputStream input = new FileInputStream("Huntertool.properties");
+                properties.load(input);
+                input.close();
+                if (properties.getProperty("proxy").equals("Y")){
+                    proxy = "开启";
+                }
+            } catch (Exception e) {
+                return proxy;
+            }
+        }else {
+            return proxy;
+        }
+        return proxy;
+    }
+
 
 
     public static String getveriosn(){
@@ -70,7 +139,7 @@ public class OtherTools {
                 InputStream input = new FileInputStream("Huntertool.properties");
                 properties.load(input);
                 input.close();
-                id = properties.getProperty("mode");
+                id = properties.getProperty("Hunter_mode");
             } catch (Exception e) {
                 return "-1";
             }
